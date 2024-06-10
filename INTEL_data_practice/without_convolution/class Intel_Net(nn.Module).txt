@@ -1,0 +1,28 @@
+class Intel_Net(nn.Module):
+
+  def __init__(self):
+    super().__init__()
+    self.flatten = nn.Flatten()
+    self.linear_relu_stack = nn.Sequential(
+        nn.Linear(3*784, 784),
+        nn.ReLU(),
+        nn.Linear(784, 512),
+        nn.ReLU(),
+        nn.Linear(512, 254),
+        nn.ReLU(),
+        nn.Linear(254, 150),
+        nn.ReLU(),
+        nn.Linear(150, 50),
+        nn.ReLU(),
+        nn.Linear(50, 20),
+        nn.ReLU(),
+        nn.Linear(20, 10),
+        nn.ReLU(),
+        nn.Linear(10, 6),
+    )
+
+  def forward(self, x):
+    x = self.flatten(x)
+    logits = self.linear_relu_stack(x)
+    output = F.log_softmax(logits, dim=1)
+    return output
